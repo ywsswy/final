@@ -1,0 +1,64 @@
+# 设置一个通用透明色128,128,192(图片保存要保存256色位图，不然拉伸会不透明）
+# 缩写
+w c -> x
+h r -> y
+
+# index（考虑覆盖和鼠标点击）
+升序排序，越小的先绘制，会被覆盖
+相同表示同一个物品（即鼠标点击相同的index，代表点击到同一个物品）
+判断鼠标点击时反向遍历list_info
+0 view背景
+2 btn_start
+3 btn_content
+4 btn_exit
+5 btn_stop
+6 btn_restart
+-1 trap
+-1 bao
+-1 不参与排序，更不会需要判断鼠标点击
+base_index+ ## 表示会实时把地图覆盖的部分
+1 man
+2 view编译中
+3 view编译报错结果
+4 运行结束(not_p)
+5 运行结束(get_p)
+6 运行结束(get_t)
+7 btn_again
+8 btn_next
+
+每次添加资源图片，需要改动：全局类*2，game_init*2，game_paint*1
+#识别命令
+	YGlobalVars::cmd_id_["YLog"] = 0;
+	YGlobalVars::cmd_id_["YGo1"] = 1;
+	YGlobalVars::cmd_id_["YGo0"] = 2;
+	YGlobalVars::cmd_id_["YTurnL"] = 3;
+	YGlobalVars::cmd_id_["YTurnR"] = 4;
+	YGlobalVars::cmd_id_["YExit0"] = 5;
+	YGlobalVars::cmd_id_["YExit1"] = 6;
+	YGlobalVars::cmd_id_["YExit2"] = 7;
+
+	YGo1 (go success)
+	YGo0 (go fail)
+	YTurnL
+	YTurnR
+	YExit0 (execute done)
+	YExit1 (find box)
+	YExit2 (into trap)
+# 资源图片id
+
+//0-4
+	YGlobalVars::bitmap_info_vector_.push_back(BitmapInfo("data/corner_white.bmp", -1, YGlobalVars::man_rect_, false));
+	YGlobalVars::bitmap_info_vector_.push_back(BitmapInfo("data/corner_black.bmp", -1, YGlobalVars::man_rect_, false));
+	YGlobalVars::bitmap_info_vector_.push_back(BitmapInfo("data/corner_trap.bmp", base_index + 0, YGlobalVars::man_rect_, false));
+	YGlobalVars::bitmap_info_vector_.push_back(BitmapInfo("data/view.bmp", 0, YGlobalVars::view_rect_, false));
+	YGlobalVars::bitmap_info_vector_.push_back(BitmapInfo("data/man.bmp", base_index + 1, YGlobalVars::man_rect_, true));
+	//5-9
+	YGlobalVars::bitmap_info_vector_.push_back(BitmapInfo("data/btn_start.bmp", 2, YGlobalVars::btn_start_rect_, true));
+	YGlobalVars::bitmap_info_vector_.push_back(BitmapInfo("data/btn_content.bmp", 3, YGlobalVars::btn_content_rect_, true));
+	YGlobalVars::bitmap_info_vector_.push_back(BitmapInfo("data/btn_exit.bmp", 4, YGlobalVars::btn_exit_rect_, true));
+	YGlobalVars::bitmap_info_vector_.push_back(BitmapInfo("data/btn_stop.bmp", 5, YGlobalVars::btn_stop_rect_, true));
+	YGlobalVars::bitmap_info_vector_.push_back(BitmapInfo("data/view_compiling.bmp", base_index + 2, YGlobalVars::view_compiling_rect_, true));
+	//10-15
+	YGlobalVars::bitmap_info_vector_.push_back(BitmapInfo("data/view_result.bmp", base_index + 3, YGlobalVars::view_result_rect_, true));
+	YGlobalVars::bitmap_info_vector_.push_back(BitmapInfo("data/bao.bmp", base_index + 4, YGlobalVars::man_rect_, true));
+

@@ -1,0 +1,10 @@
+r c
+first_row
+...
+
+
+0 corner_white
+1 corner_black
+3 corner_trap
+5 precious
+9 me

@@ -1,0 +1,64 @@
+# 这里
+g_yws_map = []
+g_yws_map_r = 0
+g_yws_map_c = 0
+g_yws_dir = 0
+g_yws_map_sr = 0
+g_yws_map_sc = 0
+GYwsNextC = (c) ->
+	if g_yws_dir%2 is 0
+		return c
+	else if g_yws_dir < 2
+		return c+1
+	else
+		return c-1
+
+GYwsNextR = (r) ->
+	if g_yws_dir%2 is 1
+		return r
+	else if g_yws_dir < 1
+		return r-1
+	else
+		return r+1
+
+GYwsGo = () ->
+	if g_yws_map[GYwsNextR(g_yws_map_sr)][GYwsNextC(g_yws_map_sc)] is 1
+		console.log 'YGo0'
+	else
+		console.log 'YGo1'
+		g_yws_map[g_yws_map_sr][g_yws_map_sc] -= 10
+		g_yws_map_sr = GYwsNextR(g_yws_map_sr)
+		g_yws_map_sc = GYwsNextC(g_yws_map_sc)
+		g_yws_map[g_yws_map_sr][g_yws_map_sc] += 10
+		if g_yws_map[g_yws_map_sr][g_yws_map_sc]%10 is 5
+			throw 'YExit1'
+		else if g_yws_map[g_yws_map_sr][g_yws_map_sc]%10 is 3
+			throw 'YExit2'
+	return
+
+step = (x) ->
+	for i in [1..x]
+		GYwsGo()
+
+right = 90
+left = 270
+
+turn = (x) ->
+	if x is 90
+		console.log 'YTurnR'
+		g_yws_dir = g_yws_dir + 1
+		if g_yws_dir > 3 
+			g_yws_dir = 0
+	else if x is 270
+		console.log 'YTurnL'
+		g_yws_dir = g_yws_dir - 1
+		if g_yws_dir < 0 
+			g_yws_dir = 3
+	else
+		1 is 1
+
+Number::times = (fn) ->
+	do fn for [1..@valueOf()] if @valueOf()
+
+log = (x) ->
+	console.log 'YLog '+x
